@@ -9,3 +9,90 @@ jenkins:
       permissions:
         - "Overall/Administer:panda"
   numExecutors: 0
+  nodes:
+  - permanent:
+      labelString: "agent"
+      launcher:
+        ssh:
+          credentialsId: "jenkins_agent"
+          host: "192.168.44.44"
+          port: 2222
+          sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
+      name: "agent"
+      remoteFS: "/home/jenkins/agent"
+      retentionStrategy: "always"
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          id: "artifactory"
+          username: "admin"
+          password: "password"
+          scope: GLOBAL
+      - basicSSHUserPrivateKey:
+          id: "jenkins_agent"
+          username: "jenkins"
+          privateKeySource:
+            directEntry:
+              privateKey:
+                -----BEGIN OPENSSH PRIVATE KEY-----
+                b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
+                NhAAAAAwEAAQAAAYEA9nYD4KFI6NTvDBufyoQx5qgjFetL9U/LOdrIEAfHgX1ooW64PvcS
+                kg/5ZbsQtFwwSPRP8jTKhh2Ql3/YCQ8Wd/FXdiXzr8p+wNG2CIPGvNJezT3ItDrArTV+mc
+                H/eBwIToWkekuh1nq4HMvJ4gBzGFq1uJvZxUIX9aA9/tFZjrjQJbylztILG+2jZ8RKH59U
+                blcSgd5MhIPCNrMF2Y2BjGqwilXqO1+qx5sTS9pedH7m9VSb1gCTgC7FkdeTzTRHJpj7So
+                4aMPquDjO7B/hbTjA6fPshn03ig5EPYvBX1GLGq2BGI65qP9HMBpoZcvxbayJLj4AU5JI8
+                6RIj2/RM6sSTEaIUKzoJl3NkGckGcPH/o9FIvTsBOHe5drcc5ZfkgrqUJaJy8OVNWL9l/a
+                2RJe7tGTiFjJTQfgya5HK9R7I19J+96w8AcDBbg4wMYmTQCsfx4hzTxC2JB4ww3099xFWp
+                uwwpIqT1KOKv+HrOrIsQq/2twFeAQFBORBFtRGUPAAAFiCPFm64jxZuuAAAAB3NzaC1yc2
+                EAAAGBAPZ2A+ChSOjU7wwbn8qEMeaoIxXrS/VPyznayBAHx4F9aKFuuD73EpIP+WW7ELRc
+                MEj0T/I0yoYdkJd/2AkPFnfxV3Yl86/KfsDRtgiDxrzSXs09yLQ6wK01fpnB/3gcCE6FpH
+                pLodZ6uBzLyeIAcxhatbib2cVCF/WgPf7RWY640CW8pc7SCxvto2fESh+fVG5XEoHeTISD
+                wjazBdmNgYxqsIpV6jtfqsebE0vaXnR+5vVUm9YAk4AuxZHXk800RyaY+0qOGjD6rg4zuw
+                f4W04wOnz7IZ9N4oORD2LwV9RixqtgRiOuaj/RzAaaGXL8W2siS4+AFOSSPOkSI9v0TOrE
+                kxGiFCs6CZdzZBnJBnDx/6PRSL07ATh3uXa3HOWX5IK6lCWicvDlTVi/Zf2tkSXu7Rk4hY
+                yU0H4MmuRyvUeyNfSfvesPAHAwW4OMDGJk0ArH8eIc08QtiQeMMN9PfcRVqbsMKSKk9Sji
+                r/h6zqyLEKv9rcBXgEBQTkQRbURlDwAAAAMBAAEAAAGBAN5iqKcFASPOFxDm0C1NUTWem2
+                II2ZY1dNv0VLdaPaPTBBk+LZPrHt+a+F/aBn2n/Y2mnYigJ+oSPUjme4nZCl4Z7+BU6GjD
+                n9HeqJFQToBMlmw9hp9RsE/aSCz3RswbB0fLARm0qwg73WtmWvjJjRD5sKUuQ7bhJ3tkJu
+                yJ/HRywKZ8bWSMVKfTqrFUBco421dgy/tRGdwsg48VxH6EV9Pa5Qc99Me0UAYiIKw+EyKs
+                6zuNJ7xW8sEj8vPhAKWVt6SBS/EqTE0OHrfIimzuchnnQ4fwMySFDdgyqW1LYKnnYhkAmf
+                hCs7beKOfybJ45svXD1WLbPKAKprbViDmvrQnULSn03oA830avgRvH8gWYVD3HJ3/8UR7R
+                o5ClJiYeVOT4NhxT1QBCbd5fqzmlNpXvgFYdBDc4I3/kmUEkZgcloPqmW06uV7tWBJai7a
+                oaruaZRAtDBPi2rURluW7LXuZy7Ou6OlobWH6h0YBO4k6TC4pP/DvQ6D5WSONnYABlKQAA
+                AMEA94T1n6+D0+va15oZuXKRBAkyNgLFU3Cj3RORgiWI715g8VgY/CojIZRFOBlp6mISuk
+                IcZLb2yBMrfCaZ2UHbTwUG1aQwglnWFmWLc2Mk1aK9bEsvsbjFznkDcYPV/gj2DoMoGYBV
+                jWw1YTNcwtxlNMg6fpX+J0uBIyiZdzelpHFMMrUzGGOyXUZ3sXANuy+Ea8Cc7oEhoxRgcm
+                D5dEsNSJn5QTqET2N4HRT4fVyzj7JhPDtDlFlOst8oD/Fu7sNQAAAAwQD90zw6JNAFC6SL
+                brcJJ6zMsPL1bfIGT3eup2KQhHr7V/9y//SKXRQzRJuLLNaPIYS2/bTrg4kcFx9sUD4nCl
+                pIlU1bjFyCw3YqaCg8lJ6dtUSvyKYnLvvx1B9powisKEYs66eqvR/DOLtQkiO+AUM5Uwpr
+                O638UpysKAwK5wZNeAIkzxPODVuLtOeyuWinvHHwHqYJlcAuhUBbdhmE8iiDvtaPQbdx1m
+                oeXGDdKcSEBN5tArwtTAtoPRJ/x690nB0AAADBAPiSoGzbki8twOQWDPsBkd4TxyMID+a+
+                QkEQXrikfLlIpj1Y6ohmrtPI7WO+zSUeXxotBDlOgr0NC4zD6PllXdzTTi/hA2P2a4OGlm
+                R725u6cFHKiryTmAf0f2DfkFi1Ch6HpAxFUzrfIRHhWId0t9EyY5V7ynMgb9RVf6kBXGx8
+                dnPP5OSzGqzUJZl0vHpzniW1WZe5tDzh6r5v8kAjzz8ZyD73zKxlk+Tobmn+8dk6GoRMq4
+                E64Hst85kZm+hGGwAAAA1wYW5kYUB2YWdyYW50AQIDBA==
+                -----END OPENSSH PRIVATE KEY-----
+          scope: GLOBAL
+tool:
+  sonarRunnerInstallation:
+    installations:
+    - name: "SonarQube"
+      properties:
+      - installSource:
+          installers:
+          - sonarRunnerInstaller:
+              id: "4.7.0.2747"
+
+unclassified:
+  location:
+    url: "http://192.168.44.44:8880/"
+  sonarGlobalConfiguration:
+    buildWrapperEnabled: true
+    installations:
+    - name: "SonarQube"
+      serverUrl: "http://192.168.44.44:9000"
+      triggers:
+        skipScmCause: false
+        skipUpstreamCause: falseKr3Hz3V4iH07c
