@@ -2,26 +2,25 @@ jenkins:
   securityRealm:
     local:
       users:
-      - id: "panda"
-        password: "panda"
+       - id: "panda"
+         password: "panda"
   authorizationStrategy:
     globalMatrix:
       permissions:
         - "Overall/Administer:panda"
   numExecutors: 0
   nodes:
-    - permanent:
-        labelString: "agent"
-        launcher:
-          ssh:
-            credentialsId: "jenkins_agent"
-            host: "192.168.44.44"
-            port: 2222
-            sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
-        name: "agent"
-        remoteFS: "/home/jenkins/agent"
-        retentionStrategy: "always"
-
+  - permanent:
+      labelString: "agent"
+      launcher:
+        ssh:
+          credentialsId: "jenkins_agent"
+          host: "192.168.44.44"
+          port: 2222
+          sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
+      name: "agent"
+      remoteFS: "/home/jenkins/agent"
+      retentionStrategy: "always"
 credentials:
   system:
     domainCredentials:
@@ -36,7 +35,7 @@ credentials:
           username: "jenkins"
           privateKeySource:
             directEntry:
-              privateKey:
+              privateKey: |
                 -----BEGIN RSA PRIVATE KEY-----
                 MIIEpAIBAAKCAQEAmicV5fguBrJiHK7F0Ppqkv7fUjbBa7Y+S333Zza/PvWuNFFB
                 w19ZintulPKEmqwnIi2BLV1rFrZdVZkEuiQHVSOb2SktidDbeqHvgB/ctj4S+sLa
