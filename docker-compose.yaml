@@ -1,56 +1,59 @@
-version: '2.4'
+---
+version: "3.9"
+
 services:
-  artifactory:
-    container_name: artifactory
-    image: docker.bintray.io/jfrog/artifactory-jcr:latest
-    ports:
-      - "8081:8081"
-      - "8082:8082"
-    volumes:
-      - ./artifactory:/artifactory_extra_conf/
-    restart: always
-    healthcheck:
-        test: ["CMD", "curl", "-f", "http://localhost:8082/artifactory/api/system/ping"]
-        start_period: 30s
-        interval: 5s
-        timeout: 10s
-        retries: 30
-  
-  
+
   jenkins:
     container_name: jenkins
-    build: ./jenkins_controller
+    build: jenkins_controller
+    depends_on:
+      - artifactory
     ports:
       - "8880:8080"
       - "50000:50000"
     volumes:
       - ./jenkins_controller/casc.yml:/usr/share/jenkins/ref/casc.yml
+      - ./jenkins_controller/jobs:/usr/share/jenkins/ref/jobs
     restart: always
-    depends_on:
-      - artifactory
-  
-  jenkins_agent:
-    container_name: jenkins_agent
+
+  jenkins_ssh_agent:
+    container_name: jenkins_agent_1
     depends_on:
       - jenkins
-    build: ./jenkins_agent
+    build: jenkins_agent
     ports:
       - "2222:22"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    restart: always
     environment:
-      - JENKINS_AGENT_SSH_PUBKEY=$PUB
+      JENKINS_AGENT_SSH_PUBKEY: "${PUB_KEY}"
+    restart: always
 
   sonarqube:
     container_name: sonarqube
-    image: sonarqube:9.2.4-community
     depends_on:
       - jenkins
+    image: sonarqube:9.2.4-community
     ports:
       - "9000:9000"
     restart: always
-  
+
+  artifactory:
+    image: docker.bintray.io/jfrog/artifactory-jcr:7.39.4
+    container_name: artifactory
+    ports:
+      - "8081:8081"
+      - "8082:8082"
+    volumes:
+      - ./artifactory:/artifactory_extra_conf
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/artifactory/api/system/ping"]
+      start_period: 30s
+      interval: 5s
+      timeout: 10s
+      retries: 30
+
   selenium_hub:
     image: selenium/hub
     container_name: selenium_hub
@@ -61,14 +64,14 @@ services:
       - "4443:4443"
       - "4444:4444"
     restart: always
-  
-  selenium_node-firefox:
+
+  selenium_node:
     image: selenium/node-firefox
     container_name: firefox
     depends_on:
-      - selenium_hub
+      -  selenium_hub
     environment:
-      - SE_EVENT_BUS_HOST=selenium_hub
-      - SE_EVENT_BUS_PUBLISH_PORT=4442
-      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      SE_EVENT_BUS_HOST: "selenium_hub"
+      SE_EVENT_BUS_PUBLISH_PORT: "4442"
+      SE_EVENT_BUS_SUBSCRIBE_PORT: "4443"
     restart: always
